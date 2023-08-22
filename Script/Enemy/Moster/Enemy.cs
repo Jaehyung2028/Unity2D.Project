@@ -5,7 +5,6 @@ using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.WSA;
 
 // 몬스터의 베이스 스크립트이기 때문에 추상클래스로 작성
 public abstract class Enemy : MonoBehaviour

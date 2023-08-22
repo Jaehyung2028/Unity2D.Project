@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
-using UnityEditor.iOS.Extensions.Common;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.Tilemaps;
@@ -218,7 +216,7 @@ public class Player : MonoBehaviour
                 }
             }
             else
-                StartCoroutine(ButtonManager.instance.AlarmString("Kill all monsters in the room."));
+                ButtonManager.instance.Alarm("Kill all monsters in the room.");
         }
         else if (other.tag == "EnemyAttack")
         {
@@ -245,7 +243,6 @@ public class Player : MonoBehaviour
             // 이동하려고 하는 방의 좌표가 존재 할 경우
             if (Pos.LeftBenchmark == PlayerLocalPos + _LeftPos)
             {
-                CurRoom = Pos;
 
                 // 히든룸과 보스룸의 경우 플레이어의 아이템의 조건에 따라 입장가능
                 if (Pos.BossRoom == false)
@@ -266,13 +263,15 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        StartCoroutine(ButtonManager.instance.AlarmString("The key must be collected."));
+                        ButtonManager.instance.Alarm("You must collect <color=blue>souls</color>.");
                         return;
                     }
                 }
 
                 if (Pos.MiniMap_Obj != null)
                     Destroy(Pos.MiniMap_Obj);
+
+                CurRoom = Pos;
 
                 break;
             }

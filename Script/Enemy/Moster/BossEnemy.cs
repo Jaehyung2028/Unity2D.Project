@@ -96,6 +96,8 @@ public class BossEnemy : Enemy
                     _Bullet.SetActive(true);
                 }
 
+                yield return new WaitForSeconds(1f);
+
                 break;
 
 
@@ -109,7 +111,7 @@ public class BossEnemy : Enemy
                 AttackCollider.enabled = true;
 
 
-                while (_time < 5)
+                while (_time < 3 || Rd.transform.position != PlayerPos)
                 {
                     _time += Time.deltaTime;
                     Rd.transform.position = Vector3.MoveTowards(Rd.transform.position, PlayerPos, Speed * 3 * Time.deltaTime);
@@ -124,8 +126,6 @@ public class BossEnemy : Enemy
             default:
                 break;
         }
-
-        yield return new WaitForSeconds(AttackDelay);
 
         IsSkill = false;
         CurTime = 0;
@@ -155,7 +155,7 @@ public class BossEnemy : Enemy
             yield return null;
         }
 
-        StartCoroutine(ButtonManager.instance.AlarmString("Game Clear"));
+        ButtonManager.instance.Alarm("Game Clear");
 
         yield return new WaitForSeconds(2f);
 

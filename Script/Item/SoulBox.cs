@@ -39,8 +39,31 @@ public class SoulBox : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ButtonManager.instance.AlarmString("Scrolls must be collected."));
+            ButtonManager.instance.Alarm("<color=green>Scrolls</color> must be collected.");
         }
+    }
+
+
+    // 카메라 진동 효과 구현
+    IEnumerator CameraShake()
+    {
+        Camera Ca = Camera.main;
+        Vector3 Camera_Pos = Ca.transform.position;
+
+        float CurTime = 3;
+
+
+        while (CurTime > 0)
+        {
+            Ca.transform.position = new Vector3(Random.insideUnitCircle.x, Random.insideUnitCircle.y) * 0.5f + Camera_Pos;
+
+            CurTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        Ca.transform.position = Camera_Pos;
+
     }
 
     private void Update()
@@ -55,7 +78,10 @@ public class SoulBox : MonoBehaviour
             ButtonManager.instance.ItemText.text = "X " + Player.Instance.Scroll;
 
             if (Player.Instance.Soul == Map.Instance.HiddenCount)
-                StartCoroutine(ButtonManager.instance.AlarmString("The boss room has been opened."));
+            {
+                StartCoroutine(CameraShake());
+                ButtonManager.instance.Alarm("<color=red>The boss room has been opened.</color>");
+            }
         }
         else if(InPlayer && Input.GetKeyDown(KeyCode.E) && !Close && Active)
         {

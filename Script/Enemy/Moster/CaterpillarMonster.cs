@@ -15,8 +15,10 @@ public class CaterpillarMonster : Enemy
 
         CurDungeon.Monster--;
 
-        if (CurDungeon.Monster == 0)
+        if (CurDungeon.Monster <= 0)
         {
+            ButtonManager.instance.Alarm("Clear.");
+
             for (int i = 0; i < Map.Instance.PortalArray.Count; i++)
             {
                 Map.Instance.PortalArray[i].GetComponent<PorTarDirection>().CanMove();

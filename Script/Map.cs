@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 // 规狼 备己夸家甫 积己磊肺 备泅
@@ -205,8 +204,8 @@ public class Map : MonoBehaviour
 
                         MonsterCount++;
 
-                        int _X = UnityEngine.Random.Range(Pos.x + 3, Pos.x + RoomSize_X - 3);
-                        int _Y = UnityEngine.Random.Range(Pos.y + 3, Pos.y + RoomSize_Y - 3);
+                        int _X = UnityEngine.Random.Range(Pos.x + 4, Pos.x + RoomSize_X - 4);
+                        int _Y = UnityEngine.Random.Range(Pos.y + 4, Pos.y + RoomSize_Y - 4);
 
                         Monster = Instantiate(MonsterArray[UnityEngine.Random.Range(0, MonsterArray.Length)], new Vector3(_X, _Y, 0), Quaternion.identity);
                         AllMonster.Add(Monster);

@@ -137,6 +137,7 @@ public class ButtonManager : MonoBehaviour
         {
             _HP = Instantiate(Hpprefab, Vector2.zero, Quaternion.identity);
             _HP.transform.SetParent(HpObj.transform);
+            _HP.transform.localScale = new Vector3(1, 1, 1);
             _OBJ.transform.GetChild(0).GetComponent<Player>().HP_IMAGE.Push(_HP);
         }
 
@@ -184,8 +185,13 @@ public class ButtonManager : MonoBehaviour
         UiObj.SetActive(true);
     }
 
+    public void Alarm(string Alarm)
+    {
+        StartCoroutine(AlarmString(Alarm));
+    }
+
     // 상황에 맞는 텍스트를 화면에 띄우기 위한 함수
-    public IEnumerator AlarmString(string Alarm)
+    IEnumerator AlarmString(string Alarm)
     {
         if (!Delay)
         {
@@ -200,7 +206,7 @@ public class ButtonManager : MonoBehaviour
             TextColor.a = 1;
             AlarmText.color = TextColor;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             while (_alpha > 0)
             {
