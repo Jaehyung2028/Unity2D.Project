@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using System;
 using UnityEngine.UIElements;
 
-// ¹æÀÇ ±¸¼º¿ä¼Ò¸¦ »ı¼ºÀÚ·Î ±¸Çö
+// ë°©ì˜ êµ¬ì„±ìš”ì†Œë¥¼ ìƒì„±ìë¡œ êµ¬í˜„
 [System.Serializable]
 public class Dungeon
 {
@@ -38,15 +38,15 @@ public class Map : MonoBehaviour
     public HashSet<Vector3Int> ObstaclePos = new HashSet<Vector3Int>();
     public List<GameObject> Soul, Scroll, AllMonster, PortalArray;
 
-    [Header("¿ÀºêÁ§Æ®")]
+    [Header("ì˜¤ë¸Œì íŠ¸")]
     public GameObject[] MonsterArray;
     public GameObject _Portal, HiddenPortal, BossPortal, SoulObj, KeyObj, MiniMapNormal, MiniMapHidden, MiniMapBoss, BossObj;
 
-    [Space][Header("Å¸ÀÏ")]
+    [Space][Header("íƒ€ì¼")]
     public Tilemap GroundTileMap, ObstacleTileMap;
     public RuleTile GroundTile, ObstacleTile;
 
-    [Space][Header("¸Ê ¼öÄ¡")]
+    [Space][Header("ë§µ ìˆ˜ì¹˜")]
     public int RoomSize_X, RoomSize_Y, RoomCount, HiddenCount, MaxMonster, RoomCountCheck = 0, DoingMapInstace = 0;
 
     Vector2Int[] TileDirection;
@@ -61,7 +61,7 @@ public class Map : MonoBehaviour
         Screen.SetResolution(1920, 1080, true);
     }
 
-    // ÇöÀç ¹æÀ§Ä¡ ±âÁØÀ¸·Î ÁÂ, ¿ì, À§, ¾Æ·¡ ¹üÀ§ ¹è¿­
+    // í˜„ì¬ ë°©ìœ„ì¹˜ ê¸°ì¤€ìœ¼ë¡œ ì¢Œ, ìš°, ìœ„, ì•„ë˜ ë²”ìœ„ ë°°ì—´
     void TitleDirectionReset()
     {
         TileDirection = new Vector2Int[]
@@ -73,19 +73,19 @@ public class Map : MonoBehaviour
         };
     }
 
-    // Ã¹ ½ÃÀÛ¹æ »ı¼º
+    // ì²« ì‹œì‘ë°© ìƒì„±
     public void StartTile()
     {
         RoomCountCheck = RoomCount;
 
         TitleDirectionReset();
 
-        // Ä«¸Ş¶óÀÇ »çÀÌÁî¸¦ ¹æÀÇ »çÀÌÁî¿¡ µû¶ó ¼³Á¤
+        // ì¹´ë©”ë¼ì˜ ì‚¬ì´ì¦ˆë¥¼ ë°©ì˜ ì‚¬ì´ì¦ˆì— ë”°ë¼ ì„¤ì •
         Camera.main.orthographicSize = 3;
 
         RoomCount -= 1;
 
-        // ¹Ù´Ú¿¡ ÇØ´çÇÏ´Â Å¸ÀÏÀ» ¼³Á¤ÇÏ°í ¹Ù´Ú HashSet¿¡ ´ëÀÔ
+        // ë°”ë‹¥ì— í•´ë‹¹í•˜ëŠ” íƒ€ì¼ì„ ì„¤ì •í•˜ê³  ë°”ë‹¥ HashSetì— ëŒ€ì…
         for (int i = 0; i < RoomSize_X; i++)
         {
             for (int j = 0; j < RoomSize_Y; j++)
@@ -95,13 +95,13 @@ public class Map : MonoBehaviour
             }
         }
 
-        // ´øÀü¿¡ ÇØ´ç ¿ä¼Ò¸¦ ´ëÀÔ
+        // ë˜ì „ì— í•´ë‹¹ ìš”ì†Œë¥¼ ëŒ€ì…
         _DungeonList.Add(new Dungeon(Vector2Int.zero));
 
         Vector2 Center = new Vector3(RoomSize_X / 2 - 0.5f, RoomSize_Y / 2 - 0.5f);
 
-        // ¹æÀÇ À§Ä¡¿¡ ¸Â°Ô Æ÷Å»À» »ı¼º
-        // Æ÷Å»¿¡ °¢ ÀÌµ¿ À§Ä¡ ´ëÀÔ
+        // ë°©ì˜ ìœ„ì¹˜ì— ë§ê²Œ í¬íƒˆì„ ìƒì„±
+        // í¬íƒˆì— ê° ì´ë™ ìœ„ì¹˜ ëŒ€ì…
         PortalArray.Add(Instantiate(_Portal, Center + new Vector2(0, RoomSize_Y / 2 - 1.5f), Quaternion.identity));
         PortalArray[0].GetComponent<PorTarDirection>().Direction = "Up";
 
@@ -114,35 +114,35 @@ public class Map : MonoBehaviour
         PortalArray.Add(Instantiate(_Portal, Center - new Vector2(RoomSize_X / 2 - 1.5f, 0), Quaternion.identity));
         PortalArray[3].GetComponent<PorTarDirection>().Direction = "Left";
 
-        // Ä«¸Ş¶óÀÇ À§Ä¡¸¦ ¹æÀÇ Áß¾Ó¿¡ ¿Ã ¼ö ÀÖµµ·Ï ¼³Á¤
+        // ì¹´ë©”ë¼ì˜ ìœ„ì¹˜ë¥¼ ë°©ì˜ ì¤‘ì•™ì— ì˜¬ ìˆ˜ ìˆë„ë¡ ì„¤ì •
         Camera.main.transform.position = new Vector3(RoomSize_X / 2 - 0.5f, RoomSize_Y / 2 - 0.5f, -10);
 
-        // ½ÃÀÛ ¹æ ±âÁØÀ¸·Î °¢ 4¹æÇâÀ¸·Î Å¸ÀÏÀ» »ı¼º
+        // ì‹œì‘ ë°© ê¸°ì¤€ìœ¼ë¡œ ê° 4ë°©í–¥ìœ¼ë¡œ íƒ€ì¼ì„ ìƒì„±
         StartCoroutine(StartMap(TileDirection[0], Vector2Int.zero));
         StartCoroutine(StartMap(TileDirection[1], Vector2Int.zero));
         StartCoroutine(StartMap(TileDirection[2], Vector2Int.zero));
         StartCoroutine(StartMap(TileDirection[3], Vector2Int.zero));
     }
 
-    // »ı¼º À§Ä¡¸¦ ¹Ş¾Æ¿Í ¹æÀ» »ı¼º
+    // ìƒì„± ìœ„ì¹˜ë¥¼ ë°›ì•„ì™€ ë°©ì„ ìƒì„±
     IEnumerator StartMap(Vector2Int Room_Direction, Vector2Int Pos)
     {
         while (RoomCount > 0)
         {
-            // ´øÀü ¸®½ºÆ®¿¡ »ı¼ºÇÒ·Á°í ÇÏ´Â À§Ä¡¿¡ ¹æÀÌ ÀÖÀ» °æ¿ì ´Ù½Ã ÀüÀÇ À§Ä¡¿¡¼­ ´Ù¸¥ ¹æÇâÀ¸·Î »ı¼º °¡´ÉÇÑÁö È®ÀÎ
-            // ´øÀü¿¡ Æ÷ÇÔµÈ À§Ä¡Á¤º¸¸¦ È®ÀÎÇÏ±â À§ÇØ ¶÷´Ù½ÄÀ» ÀÌ¿ëÇÏ¿© À§Ä¡Á¤º¸ È®ÀÎ
+            // ë˜ì „ ë¦¬ìŠ¤íŠ¸ì— ìƒì„±í• ë ¤ê³  í•˜ëŠ” ìœ„ì¹˜ì— ë°©ì´ ìˆì„ ê²½ìš° ë‹¤ì‹œ ì „ì˜ ìœ„ì¹˜ì—ì„œ ë‹¤ë¥¸ ë°©í–¥ìœ¼ë¡œ ìƒì„± ê°€ëŠ¥í•œì§€ í™•ì¸
+            // ë˜ì „ì— í¬í•¨ëœ ìœ„ì¹˜ì •ë³´ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•´ ëŒë‹¤ì‹ì„ ì´ìš©í•˜ì—¬ ìœ„ì¹˜ì •ë³´ í™•ì¸
             if (_DungeonList.FindIndex(item => item.LeftBenchmark.Equals(Room_Direction)) != -1)
             {
                 for (int i = 0; i < TileDirection.Length; i++)
                 {
-                    // ´Ù¸¥ ¹æÇâ¿¡ »ı¼º °¡´ÉÇÒ °æ¿ì À§Ä¡¸¦ ´Ù½Ã ´ëÀÔÇÏ¿© While¹® ¹İº¹
+                    // ë‹¤ë¥¸ ë°©í–¥ì— ìƒì„± ê°€ëŠ¥í•  ê²½ìš° ìœ„ì¹˜ë¥¼ ë‹¤ì‹œ ëŒ€ì…í•˜ì—¬ Whileë¬¸ ë°˜ë³µ
                     if (_DungeonList.FindIndex(item => item.LeftBenchmark.Equals(Pos + TileDirection[i])) == -1)
                     {
                         Room_Direction = Pos + TileDirection[i];
                         break;
                     }
-                    // ¸¶Áö¸· ¹è¿­±îÁö È®ÀÎÈÄ »ı¼º°¡´É ÁÂÇ¥°¡ ¾øÀ» °æ¿ì DoingMapInstance °ªÀ» ´õÇÏ¿© 4¹æÇâ ¸ğµÎ »ı¼º°¡´ÉÇÑ ÁÂÇ¥°¡ ¾ø°í
-                    // »ı¼ºµÇ¾î¾ß ÇÏ´Â ¹æÀÇ °¹¼ö¿Í ÇöÀç ¹æÀÇ °¹¼ö°¡ ´Ù¸¦ °æ¿ì ¸ÊÀ» ´Ù½Ã ÃÊ±âÈ­
+                    // ë§ˆì§€ë§‰ ë°°ì—´ê¹Œì§€ í™•ì¸í›„ ìƒì„±ê°€ëŠ¥ ì¢Œí‘œê°€ ì—†ì„ ê²½ìš° DoingMapInstance ê°’ì„ ë”í•˜ì—¬ 4ë°©í–¥ ëª¨ë‘ ìƒì„±ê°€ëŠ¥í•œ ì¢Œí‘œê°€ ì—†ê³ 
+                    // ìƒì„±ë˜ì–´ì•¼ í•˜ëŠ” ë°©ì˜ ê°¯ìˆ˜ì™€ í˜„ì¬ ë°©ì˜ ê°¯ìˆ˜ê°€ ë‹¤ë¥¼ ê²½ìš° ë§µì„ ë‹¤ì‹œ ì´ˆê¸°í™”
                     else if (i == 3 && _DungeonList.FindIndex(item => item.LeftBenchmark.Equals(Pos + TileDirection[i])) != -1)
                     {
                         DoingMapInstace += 1;
@@ -155,7 +155,7 @@ public class Map : MonoBehaviour
                 }
             }
 
-            // ´øÀü¸®½ºÆ®¿¡ ÇØ´ç ÁÂÇ¥°¡ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì Å¸ÀÏÀ» »ı¼ºÇÏ°í ·£´ı ¼ö¿¡ ¸ÂÃç Àå¾Ö¹° »ı¼º
+            // ë˜ì „ë¦¬ìŠ¤íŠ¸ì— í•´ë‹¹ ì¢Œí‘œê°€ ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš° íƒ€ì¼ì„ ìƒì„±í•˜ê³  ëœë¤ ìˆ˜ì— ë§ì¶° ì¥ì• ë¬¼ ìƒì„±
             if (_DungeonList.FindIndex(item => item.LeftBenchmark.Equals(Room_Direction)) == -1)
             {
 
@@ -177,7 +177,7 @@ public class Map : MonoBehaviour
                     }
                 }
 
-                // ¸¶Áö¸· ¼ø¼­ÀÇ ¹æÀÏ °æ¿ì º¸½º·ëÀ¸·Î ¼³Á¤
+                // ë§ˆì§€ë§‰ ìˆœì„œì˜ ë°©ì¼ ê²½ìš° ë³´ìŠ¤ë£¸ìœ¼ë¡œ ì„¤ì •
                 bool Boss = RoomCount == 1 ? true : false;
 
                 RoomCount -= 1;
@@ -190,13 +190,13 @@ public class Map : MonoBehaviour
 
                 Enemy CurMonster;
 
-                // »õ·Î¿î ¹æÇâÀÇ ÁÂÇ¥¸¦ ´ëÀÔ ÈÄ ¹İº¹
+                // ìƒˆë¡œìš´ ë°©í–¥ì˜ ì¢Œí‘œë¥¼ ëŒ€ì… í›„ ë°˜ë³µ
                 Pos = Room_Direction;
                 Room_Direction = Room_Direction + TileDirection[Direction];
 
-                // ÇØ´ç ¹æ¿¡ ¸ó½ºÅÍ »ı¼º
-                // »ı¼ºµÈ ¸ó½ºÅÍ ¿ÀºêÁ§Æ®´Â ¸®½ºÆ®¿¡¼­ °ü¸®
-                // ¹æ¿¡ »ı¼ºµÈ ÃÑ ¸ó½ºÅÍ ¼ö ´øÀü ¸®½ºÆ®¿¡ ´ëÀÔ
+                // í•´ë‹¹ ë°©ì— ëª¬ìŠ¤í„° ìƒì„±
+                // ìƒì„±ëœ ëª¬ìŠ¤í„° ì˜¤ë¸Œì íŠ¸ëŠ” ë¦¬ìŠ¤íŠ¸ì—ì„œ ê´€ë¦¬
+                // ë°©ì— ìƒì„±ëœ ì´ ëª¬ìŠ¤í„° ìˆ˜ ë˜ì „ ë¦¬ìŠ¤íŠ¸ì— ëŒ€ì…
                 if (!Boss)
                 {
                     for (int i = 0; i < Monster_Setting; i++)
@@ -229,14 +229,14 @@ public class Map : MonoBehaviour
                     CurMonster.RightPos = new Vector3Int(Pos.x + RoomSize_X, Pos.y + RoomSize_Y, 0);
                 }
 
-                // ´øÀü¸®½ºÆ®¿¡ Ãß°¡
+                // ë˜ì „ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
                 _DungeonList.Add(new Dungeon(Pos, false, Boss, null, MonsterCount));
 
                 yield return null;
 
             }
         }
-        // ¸ğµç ¹æ »ı¼ºÀÌ ¿Ï·áµÉ °æ¿ì ½ÇÇà
+        // ëª¨ë“  ë°© ìƒì„±ì´ ì™„ë£Œë  ê²½ìš° ì‹¤í–‰
         if (!FinishTile)
         {
             FinishTile = true;
@@ -249,19 +249,19 @@ public class Map : MonoBehaviour
 
     private void HidenRoomKeyInstace()
     {
-        // ³­ÀÌµµ¿¡ µû¸¥ ¾ÆÀÌÅÛ »ı¼º
+        // ë‚œì´ë„ì— ë”°ë¥¸ ì•„ì´í…œ ìƒì„±
         if (HiddenCount > 0)
         {
             int ScrollCount = HiddenCount;
 
-            // Ã¹¹øÂ° ¹æ°ú ÀÌ¾îÁø ÃÑ 5°³ÀÇ ¹æ°ú º¸½º ¹æÀ» Á¦¿ÜÇÑ ³ª¸ÓÁö ¹æÀ» ¸®½ºÆ®¿¡ ´ëÀÔ
+            // ì²«ë²ˆì§¸ ë°©ê³¼ ì´ì–´ì§„ ì´ 5ê°œì˜ ë°©ê³¼ ë³´ìŠ¤ ë°©ì„ ì œì™¸í•œ ë‚˜ë¨¸ì§€ ë°©ì„ ë¦¬ìŠ¤íŠ¸ì— ëŒ€ì…
             for (int i = 5; i < _DungeonList.Count; i++)
             {
                 if (_DungeonList[i].BossRoom == false)
                     NomarRoom.Add(_DungeonList[i].LeftBenchmark);
             }
 
-            // È÷µç·ëÀÇ °¹¼ö ¸¸Å­ ¹æ¿¡ ½ºÅ©·ÑÀ» »ı¼ºÇÑ ÈÄ ¸®½ºÆ®¿¡¼­ Á¦¿Ü
+            // íˆë“ ë£¸ì˜ ê°¯ìˆ˜ ë§Œí¼ ë°©ì— ìŠ¤í¬ë¡¤ì„ ìƒì„±í•œ í›„ ë¦¬ìŠ¤íŠ¸ì—ì„œ ì œì™¸
             while (NomarRoom.Count > HiddenCount)
             {
                 int s = UnityEngine.Random.Range(0, NomarRoom.Count);
@@ -275,16 +275,16 @@ public class Map : MonoBehaviour
                 NomarRoom.RemoveAt(s);
             }
 
-            // Á¦°ÅµÇ°í ³²Àº ¹æ¿¡¼­ ¼Ò¿ï ¿ÀºêÁ§Æ®¸¦ »ı¼º
-            // ´øÀü¸®½ºÆ®ÀÇ È÷µç·ë Á¶°ÇÀ» True·Î º¯°æ
+            // ì œê±°ë˜ê³  ë‚¨ì€ ë°©ì—ì„œ ì†Œìš¸ ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±
+            // ë˜ì „ë¦¬ìŠ¤íŠ¸ì˜ íˆë“ ë£¸ ì¡°ê±´ì„ Trueë¡œ ë³€ê²½
             for (int i = 0; i < NomarRoom.Count; i++)
             {
                 _DungeonList[_DungeonList.FindIndex(item => item.LeftBenchmark.Equals(NomarRoom[i]))].HidenRoom = true;
                 Soul.Add(Instantiate(SoulObj, new Vector3(NomarRoom[i].x, NomarRoom[i].y) + new Vector3(RoomSize_X / 2, RoomSize_Y / 2), Quaternion.identity));
             }
 
-            // ¹æ¿¡ ÃâÀÔÇÏÁö ¾Ê¾ÒÀ»¶§ ¹Ì´Ï¸Ê¿¡ Ç¥½ÃµÇ´Â °¢ ¹æÀÇ Á¶°ÇÀÌ ¸Â´Â »öÀÇ ÀÌ¹ÌÁö¸¦ ¹æÀÇ À§Ä¡¿¡ ¸Â°Ô »ı¼º
-            // ¹æ¿¡ ÃâÀÔÇÏ¿´À» °æ¿ì ÀÌ¹ÌÁö¸¦ »èÁ¦ÇÏ¿© ÃâÀÔÇÑ ¹æ°ú ÃâÀÔÇÏÁö ¾ÊÀº ¹æÀ» ±¸ºĞ
+            // ë°©ì— ì¶œì…í•˜ì§€ ì•Šì•˜ì„ë•Œ ë¯¸ë‹ˆë§µì— í‘œì‹œë˜ëŠ” ê° ë°©ì˜ ì¡°ê±´ì´ ë§ëŠ” ìƒ‰ì˜ ì´ë¯¸ì§€ë¥¼ ë°©ì˜ ìœ„ì¹˜ì— ë§ê²Œ ìƒì„±
+            // ë°©ì— ì¶œì…í•˜ì˜€ì„ ê²½ìš° ì´ë¯¸ì§€ë¥¼ ì‚­ì œí•˜ì—¬ ì¶œì…í•œ ë°©ê³¼ ì¶œì…í•˜ì§€ ì•Šì€ ë°©ì„ êµ¬ë¶„
             for (int i = 1; i < _DungeonList.Count; i++)
             {
                 GameObject MiniMap = null;
@@ -301,8 +301,8 @@ public class Map : MonoBehaviour
                         Instantiate(MiniMapBoss, (new Vector3(_DungeonList[i].LeftBenchmark.x, _DungeonList[i].LeftBenchmark.y, 0) + new Vector3(RoomSize_X / 2, RoomSize_Y / 2, -5)), Quaternion.identity);
                 }
 
-                // ÀÌ¹ÌÁöÀÇ »çÀÌÁî¸¦ ¹æÀÇ »çÀÌÁî¿¡ ¸Â°Ô ¹Ù²Ù¾î ¹Ì´Ï¸Ê¿¡¼­ ¹æÀ» °¡¸± ¼ö ÀÖµµ·Ï ±¸Çö
-                // ÇØ´ç ÁÂÇ¥¸¦ °¡Áø ´øÀü¸®½ºÆ®ÀÇ ±¸¼º¿ä¼Ò¿¡ ÀÌ¹ÌÁö¸¦ ´ëÀÔÇÏ¿© °ü¸®
+                // ì´ë¯¸ì§€ì˜ ì‚¬ì´ì¦ˆë¥¼ ë°©ì˜ ì‚¬ì´ì¦ˆì— ë§ê²Œ ë°”ê¾¸ì–´ ë¯¸ë‹ˆë§µì—ì„œ ë°©ì„ ê°€ë¦´ ìˆ˜ ìˆë„ë¡ êµ¬í˜„
+                // í•´ë‹¹ ì¢Œí‘œë¥¼ ê°€ì§„ ë˜ì „ë¦¬ìŠ¤íŠ¸ì˜ êµ¬ì„±ìš”ì†Œì— ì´ë¯¸ì§€ë¥¼ ëŒ€ì…í•˜ì—¬ ê´€ë¦¬
                 MiniMap.transform.localScale = new Vector3(RoomSize_X, RoomSize_Y, 0);
                 _DungeonList[i].MiniMap_Obj = MiniMap;
             }
@@ -335,7 +335,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    // »ı¼ºµÈ ¿ÀºêÁ§Æ® »èÁ¦ ¹× ¸®½ºÆ® Á¤¸®
+    // ìƒì„±ëœ ì˜¤ë¸Œì íŠ¸ ì‚­ì œ ë° ë¦¬ìŠ¤íŠ¸ ì •ë¦¬
     public void TileReset()
     {
 

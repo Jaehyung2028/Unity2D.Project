@@ -6,7 +6,7 @@ public class CaterpillarMonster : Enemy
 {
     [SerializeField] GameObject[] MiniEnem;
 
-    // ¸ó½ºÅÍÀÇ ÄÁ¼Á¿¡ ¸Â°Ô ÀÚ½Ä¿ÀºêÁ§Æ®·Î µî·ÏµÇ¾î ÀÖ´ø ¿ÀºêÁ§Æ®µéÀ» È°¼ºÈ­ ½ÃÄÑ ºĞ¿­ÇÏ´Â ±â´ÉÀ» ±¸Çö
+    // ëª¬ìŠ¤í„°ì˜ ì»¨ì…‰ì— ë§ê²Œ ìì‹ì˜¤ë¸Œì íŠ¸ë¡œ ë“±ë¡ë˜ì–´ ìˆë˜ ì˜¤ë¸Œì íŠ¸ë“¤ì„ í™œì„±í™” ì‹œì¼œ ë¶„ì—´í•˜ëŠ” ê¸°ëŠ¥ì„ êµ¬í˜„
     protected override IEnumerator Die()
     {
         IsDeath = true;

@@ -24,7 +24,7 @@ public class TowerMonster : Enemy
         Gizmos.DrawWireSphere(Rd.transform.position, Attack_Area);
     }
 
-    // °ø°Ý½Ã ÇÃ·¹ÀÌ¾î¸¦ º¸µµ·Ï ÀçÁ¤ÀÇ
+    // ê³µê²©ì‹œ í”Œë ˆì´ì–´ë¥¼ ë³´ë„ë¡ ìž¬ì •ì˜
     protected override void Attack()
     {
         if (Player.transform.position.x - Rd.transform.position.x > 0)
@@ -97,13 +97,13 @@ public class TowerMonster : Enemy
         Destroy(AllBody.transform.parent.gameObject);
     }
 
-    // °ø°Ý ¾Ö´Ï¸ÞÀÌ¼Ç¿¡ ÀÌº¥Æ®¸¦ Ãß°¡ÇÏ¿© ÁöÁ¤µÇ¾î ÀÖ´ø ÃÑ¾Ë ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­
+    // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ì— ì´ë²¤íŠ¸ë¥¼ ì¶”ê°€í•˜ì—¬ ì§€ì •ë˜ì–´ ìžˆë˜ ì´ì•Œ ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”
     public void BulletInstance() => Bullet_List.Dequeue().SetActive(true);
 
     protected override void PlayerCheck() => enemyStat = Delay ? EnemyStat.Idle : EnemyStat.Attack;
 
 
-    // Å¸¿ö ¸ó½ºÅÍÀÇ °æ¿ì ¹æÀÇ ¹üÀ§¿¡ À§Ä¡ÇÒ °æ¿ì °ø°Ý ÇÏ±â ¶§¹®¿¡ Phisics¸¦ »ç¿ëÇÏÁö ¾Ê¾Æ ÀÌµ¿À» Á¦°Å
+    // íƒ€ì›Œ ëª¬ìŠ¤í„°ì˜ ê²½ìš° ë°©ì˜ ë²”ìœ„ì— ìœ„ì¹˜í•  ê²½ìš° ê³µê²© í•˜ê¸° ë•Œë¬¸ì— Phisicsë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šì•„ ì´ë™ì„ ì œê±°
     protected override void EnemyControl()
     {
         if (Player.transform.position.x >= LeftPos.x && Player.transform.position.x <= RightPos.x)

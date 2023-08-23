@@ -6,19 +6,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-// ¸ó½ºÅÍÀÇ º£ÀÌ½º ½ºÅ©¸³Æ®ÀÌ±â ¶§¹®¿¡ Ãß»óÅ¬·¡½º·Î ÀÛ¼º
+// ëª¬ìŠ¤í„°ì˜ ë² ì´ìŠ¤ ìŠ¤í¬ë¦½íŠ¸ì´ê¸° ë•Œë¬¸ì— ì¶”ìƒí´ë˜ìŠ¤ë¡œ ì‘ì„±
 public abstract class Enemy : MonoBehaviour
 {
-    [Header("ÀÌµ¿ ¾Ë°í¸®Áò")][SerializeField] NodeControl MoveNode;
+    [Header("ì´ë™ ì•Œê³ ë¦¬ì¦˜")][SerializeField] NodeControl MoveNode;
 
-    [Space][Header("ÄÄÆ÷³ÍÆ®")][SerializeField] protected Rigidbody2D Rd, Player;
+    [Space][Header("ì»´í¬ë„ŒíŠ¸")][SerializeField] protected Rigidbody2D Rd, Player;
     [SerializeField] protected Animator Ani;
     [SerializeField] protected ParticleSystem DeathEffect, HItEffect;
     [SerializeField] protected Collider2D AttackCollider;
     [SerializeField] protected GameObject AllBody;
     [SerializeField] protected SpriteRenderer[] EnemySprite;
 
-    [Space][Header("¸ó½ºÅÍ ¼öÄ¡")][SerializeField] protected int Hp, Speed;
+    [Space][Header("ëª¬ìŠ¤í„° ìˆ˜ì¹˜")][SerializeField] protected int Hp, Speed;
     public Vector3Int LeftPos, RightPos;
     [SerializeField] protected float Move_Area, Attack_Area, AttackDelay;
 
@@ -26,7 +26,7 @@ public abstract class Enemy : MonoBehaviour
     public Dungeon CurDungeon;
 
     protected enum EnemyStat { Idle, Move, Attack, Skill, Die };
-    [Space][Header("¸ó½ºÅÍ »óÅÂ")][SerializeField] protected EnemyStat enemyStat;
+    [Space][Header("ëª¬ìŠ¤í„° ìƒíƒœ")][SerializeField] protected EnemyStat enemyStat;
 
 
     protected abstract void OnDrawGizmos();
@@ -51,10 +51,10 @@ public abstract class Enemy : MonoBehaviour
         Ani.SetBool("Walk", true);
         Ani.SetBool("Idle", false);
 
-        // ¸ó½ºÅÍ ÀÌµ¿ÀÇ °æ¿ì ¸Å°³º¯¼ö¸¦ ³Ñ°ÜÁÖ¾î ÀÌµ¿ ½ºÅ©¸³Æ®¿¡ ÀÖ´Â ÇÔ¼ö¸¦ ½ÌÇà
+        // ëª¬ìŠ¤í„° ì´ë™ì˜ ê²½ìš° ë§¤ê°œë³€ìˆ˜ë¥¼ ë„˜ê²¨ì£¼ì–´ ì´ë™ ìŠ¤í¬ë¦½íŠ¸ì— ìˆëŠ” í•¨ìˆ˜ë¥¼ ì‹±í–‰
         MoveNode.PathFind(LeftPos, RightPos, Rd.transform.position, Player.transform.position, out MovePos, out Destination);
 
-        // ³Ñ°Ü ¹ŞÀº °æ·Î ³ëµå°¡ Á¸ÀçÇÏ´Â °æ¿ì °è¼ÓÇØ¼­ ½ÇÇà µÇ°í ¾Æ´Ñ °æ¿ì ÇÔ¼ö Á¾·á
+        // ë„˜ê²¨ ë°›ì€ ê²½ë¡œ ë…¸ë“œê°€ ì¡´ì¬í•˜ëŠ” ê²½ìš° ê³„ì†í•´ì„œ ì‹¤í–‰ ë˜ê³  ì•„ë‹Œ ê²½ìš° í•¨ìˆ˜ ì¢…ë£Œ
         if (MovePos.Count != 0)
         {
             if (Destination != null)
@@ -73,8 +73,8 @@ public abstract class Enemy : MonoBehaviour
             if (CurTime < 0.5f)
                 CurTime += Time.deltaTime;
 
-            // ÀÚ½ÅÀÇ À§Ä¡°¡ ÇöÀç ÀÌµ¿ÇÏ¿©¾ß ÇÏ´Â À§Ä¡°ª¿¡ µµÂøÇÏ¿´À» °æ¿ì ½ÇÇà
-            // ½Ç½Ã°£À¸·Î ÇÃ·¹ÀÌ¾î¸¦ ÃßÀûÇÏ¿©¾ß ÇÏ±â ¶§¹®¿¡ 0.5ÃÊ°¡ Áö³­ ½ÃÁ¡¿¡ Å¸°ÙÀÇ ¹İ¿Ã¸² À§Ä¡°¡ µµÂøÁ¡°ú ´Ù¸¦ °æ¿ì ÀçÅ½»ö ÇÏµµ·Ï ¼³Á¤
+            // ìì‹ ì˜ ìœ„ì¹˜ê°€ í˜„ì¬ ì´ë™í•˜ì—¬ì•¼ í•˜ëŠ” ìœ„ì¹˜ê°’ì— ë„ì°©í•˜ì˜€ì„ ê²½ìš° ì‹¤í–‰
+            // ì‹¤ì‹œê°„ìœ¼ë¡œ í”Œë ˆì´ì–´ë¥¼ ì¶”ì í•˜ì—¬ì•¼ í•˜ê¸° ë•Œë¬¸ì— 0.5ì´ˆê°€ ì§€ë‚œ ì‹œì ì— íƒ€ê²Ÿì˜ ë°˜ì˜¬ë¦¼ ìœ„ì¹˜ê°€ ë„ì°©ì ê³¼ ë‹¤ë¥¼ ê²½ìš° ì¬íƒìƒ‰ í•˜ë„ë¡ ì„¤ì •
             if (Rd.transform.position == new Vector3(Point.x, Point.y, 0))
             {
                 if (Vector3Int.RoundToInt(Player.transform.position) != new Vector3Int(Destination.x, Destination.y, 0) && CurTime >= 0.5f)
@@ -109,10 +109,10 @@ public abstract class Enemy : MonoBehaviour
 
             }
 
-            // À§Ä¡ ÀÌµ¿Àº ½ºÅÃÀ¸·Î ³Ñ°Ü ¹ŞÀº ³ëµåÀÇ °¢ À§Ä¡¸¦ Â÷·Ê´ë·Î ÀÌµ¿ÇÏµµ·Ï ¼³Á¤
+            // ìœ„ì¹˜ ì´ë™ì€ ìŠ¤íƒìœ¼ë¡œ ë„˜ê²¨ ë°›ì€ ë…¸ë“œì˜ ê° ìœ„ì¹˜ë¥¼ ì°¨ë¡€ëŒ€ë¡œ ì´ë™í•˜ë„ë¡ ì„¤ì •
             Rd.transform.position = Vector3.MoveTowards(Rd.transform.position, new Vector3(Point.x, Point.y, 0), Speed * Time.deltaTime);
 
-            // ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍÀÇ °Å¸® °ªÀ» ÀÌ¿ëÇÏ¿© ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸µµ·Ï ¼³Á¤
+            // í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„°ì˜ ê±°ë¦¬ ê°’ì„ ì´ìš©í•˜ì—¬ í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ë„ë¡ ì„¤ì •
             if ((Player.transform.position.x - Rd.transform.position.x) < 0 && AllBody.transform.rotation != Quaternion.Euler(0, 0, 0))
                 AllBody.transform.rotation = Quaternion.Euler(0, 0, 0);
             else if ((Player.transform.position.x - Rd.transform.position.x) > 0 && AllBody.transform.rotation != Quaternion.Euler(0, 180, 0))
@@ -169,7 +169,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    // Phisics¸¦ ÀÌ¿ëÇÏ¿© ÀÏ¹İ °ø°İ ¹üÀ§ ¹× ÃßÀû ¹üÀ§ °¨Áö
+    // Phisicsë¥¼ ì´ìš©í•˜ì—¬ ì¼ë°˜ ê³µê²© ë²”ìœ„ ë° ì¶”ì  ë²”ìœ„ ê°ì§€
     protected virtual void PlayerCheck()
     {
         Follow_Player = Physics2D.CircleCast(Rd.transform.position, Move_Area, Vector2.zero, 0, LayerMask.GetMask("Player"));
@@ -178,11 +178,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void EnemyControl()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ÀÚ½ÅÀÇ ¹æ ¹üÀ§¿¡ À§Ä¡ÇÒ °æ¿ì ½ÇÇà
+        // í”Œë ˆì´ì–´ê°€ ìì‹ ì˜ ë°© ë²”ìœ„ì— ìœ„ì¹˜í•  ê²½ìš° ì‹¤í–‰
         if (Player.transform.position.x >= LeftPos.x && Player.transform.position.x <= RightPos.x &&
             Player.transform.position.y >= LeftPos.y && Player.transform.position.y <= RightPos.y)
         {
-            // ¸ó½ºÅÍÀÇ »óÅÂ¸¦ ¿­°ÜÇüÀ¸·Î °ü¸®
+            // ëª¬ìŠ¤í„°ì˜ ìƒíƒœë¥¼ ì—´ê²¨í˜•ìœ¼ë¡œ ê´€ë¦¬
             if (enemyStat != EnemyStat.Die)
             {
                 PlayerCheck();

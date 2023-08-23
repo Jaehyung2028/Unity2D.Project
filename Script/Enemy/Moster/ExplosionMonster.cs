@@ -16,14 +16,14 @@ public class ExplosionMonster : Enemy
         Gizmos.DrawWireCube(Rd.transform.position, new Vector3(Attack_Area, Attack_Area, Attack_Area));
     }
 
-    // Phisics¸¦ ÀÌ¿ëÇÏ¿© ÀÏ¹İ °ø°İ ¹üÀ§ ¹× ÃßÀû ¹üÀ§ °¨Áö
+    // Phisicsë¥¼ ì´ìš©í•˜ì—¬ ì¼ë°˜ ê³µê²© ë²”ìœ„ ë° ì¶”ì  ë²”ìœ„ ê°ì§€
     protected override void PlayerCheck()
     {
         Follow_Player = Physics2D.CircleCast(Rd.transform.position, Move_Area, Vector2.zero, 0, LayerMask.GetMask("Player"));
         Attack_Player = Physics2D.BoxCast(Rd.transform.position, new Vector2(Attack_Area, Attack_Area), 0, Vector2.zero, 0, LayerMask.GetMask("Player"));
     }
 
-    // ¸ó½ºÅÍÀÇ ÄÁ¼Á¿¡ ¸Â°Ô Æø¹ßÇÏ´Â ±â´É ÀçÁ¤ÀÇ
+    // ëª¬ìŠ¤í„°ì˜ ì»¨ì…‰ì— ë§ê²Œ í­ë°œí•˜ëŠ” ê¸°ëŠ¥ ì¬ì •ì˜
     protected override IEnumerator Die()
     {
         IsDeath = true;

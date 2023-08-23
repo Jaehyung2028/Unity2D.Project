@@ -9,7 +9,7 @@ public class ButtonManager : MonoBehaviour
 {
     static public ButtonManager instance;
 
-    [Header("ÄÄÆ÷³ÍÆ®")]
+    [Header("ì»´í¬ë„ŒíŠ¸")]
     [SerializeField] TMP_Text LevelText, AlarmText;
     [SerializeField] Image[] IdleImage;
     public TMP_Text ItemText, SoulText;
@@ -24,7 +24,7 @@ public class ButtonManager : MonoBehaviour
 
     private void Awake() => instance = this;
 
-    // ³­ÀÌµµ Á¶Àý ¹öÆ°À» ÀÌ¿ëÇÏ¿© ÅØ½ºÆ® º¯°æ
+    // ë‚œì´ë„ ì¡°ì ˆ ë²„íŠ¼ì„ ì´ìš©í•˜ì—¬ í…ìŠ¤íŠ¸ ë³€ê²½
     public void LevelButton(string _Name)
     {
         switch (_Name)
@@ -42,7 +42,7 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    // ½ÃÀÛ ¹öÆ°À» ´©¸¦ °æ¿ì ³­ÀÌµµÀÇ ÅØ½ºÆ®¿¡ µû¶ó ¸Ê ¹× ¸ó½ºÅÍÀÇ ¼öÄ¡°¡ º¯°æ
+    // ì‹œìž‘ ë²„íŠ¼ì„ ëˆ„ë¥¼ ê²½ìš° ë‚œì´ë„ì˜ í…ìŠ¤íŠ¸ì— ë”°ë¼ ë§µ ë° ëª¬ìŠ¤í„°ì˜ ìˆ˜ì¹˜ê°€ ë³€ê²½
     public void StartButton()
     {
         switch (LevelText.text)
@@ -85,8 +85,8 @@ public class ButtonManager : MonoBehaviour
 
     }
 
-    // ¼±Çüº¸°£À» ÀÌ¿ëÇÏ¿© ÆäÀÌµåÀÎ, ÆäÀÌµå ¾Æ¿ô È¿°ú¸¦ Àû¿ë
-    // µ¿½Ã¿¡ ¸Ê ½ºÅ©¸³Æ®ÀÇ ¸Ê»ý¼º ÇÔ¼ö¸¦ ½ÇÇà
+    // ì„ í˜•ë³´ê°„ì„ ì´ìš©í•˜ì—¬ íŽ˜ì´ë“œì¸, íŽ˜ì´ë“œ ì•„ì›ƒ íš¨ê³¼ë¥¼ ì ìš©
+    // ë™ì‹œì— ë§µ ìŠ¤í¬ë¦½íŠ¸ì˜ ë§µìƒì„± í•¨ìˆ˜ë¥¼ ì‹¤í–‰
     IEnumerator ImageFadeOut()
     {
         Map.Instance.Reset = false;
@@ -190,7 +190,7 @@ public class ButtonManager : MonoBehaviour
         StartCoroutine(AlarmString(Alarm));
     }
 
-    // »óÈ²¿¡ ¸Â´Â ÅØ½ºÆ®¸¦ È­¸é¿¡ ¶ç¿ì±â À§ÇÑ ÇÔ¼ö
+    // ìƒí™©ì— ë§žëŠ” í…ìŠ¤íŠ¸ë¥¼ í™”ë©´ì— ë„ìš°ê¸° ìœ„í•œ í•¨ìˆ˜
     IEnumerator AlarmString(string Alarm)
     {
         if (!Delay)
@@ -226,7 +226,7 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    // Á¾·á ÇÔ¼ö
+    // ì¢…ë£Œ í•¨ìˆ˜
     public void ExitButton() => Application.Quit();
 
 }

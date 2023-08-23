@@ -11,23 +11,23 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
 
-    [Header("¿ÀºêÁ§Æ®")]
+    [Header("ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] GameObject MiniMap, AllBody;
     [SerializeField] GameObject[] HPObj, Bullet;
 
     [Space]
-    [Header("ÄÄÆ÷³ÍÆ®")]
+    [Header("ì»´í¬ë„ŒíŠ¸")]
     [SerializeField] Rigidbody2D Rd;
     [SerializeField] Animator Ani;
     [SerializeField] Transform Main_Camera;
     [SerializeField] SpriteRenderer[] PlayerSprite;
 
     [Space]
-    [Header("ÀÌÆåÆ®")]
+    [Header("ì´í™íŠ¸")]
     [SerializeField] ParticleSystem HitEffect, DeathEffect;
 
     [Space]
-    [Header("¼öÄ¡")]
+    [Header("ìˆ˜ì¹˜")]
     [SerializeField] float AttackSpeed = 0.2f;
     public int Scroll, Soul;
 
@@ -188,17 +188,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Æ÷Å»ÀÇ ¹æÇâ¿¡ µû¶ó ÀÌµ¿µÇ´Â À§Ä¡ ´ëÀÔ
+    // í¬íƒˆì˜ ë°©í–¥ì— ë”°ë¼ ì´ë™ë˜ëŠ” ìœ„ì¹˜ ëŒ€ì…
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "PorTal")
         {
-            // ÇöÀç ¹æ¿¡ ¸ó½ºÅÍ°¡ Á¸Àç ÇÏÁö ¾ÊÀ» °æ¿ì ÀÌµ¿ °¡´É
+            // í˜„ì¬ ë°©ì— ëª¬ìŠ¤í„°ê°€ ì¡´ì¬ í•˜ì§€ ì•Šì„ ê²½ìš° ì´ë™ ê°€ëŠ¥
             if (CurRoom.Monster == 0)
             {
                 switch (other.GetComponent<PorTarDirection>().Direction)
                 {
-                    // ÀÌµ¿ ÇÏ·Á°í ÇÏ´Â ¹æÀÇ ÁÂÃøÇÏ´Ü ÁÂÇ¥¿Í ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡ º¯µ¿ °ªÀ» ¸Å°³º¯¼ö·Î ³Ñ±è
+                    // ì´ë™ í•˜ë ¤ê³  í•˜ëŠ” ë°©ì˜ ì¢Œì¸¡í•˜ë‹¨ ì¢Œí‘œì™€ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ ë³€ë™ ê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ë„˜ê¹€
                     case "Up":
                         PortalMove(new Vector2Int(0, Map.Instance.RoomSize_Y + 10), -new Vector3(0, Map.Instance.RoomSize_Y / 2 - 2.5f));
                         break;
@@ -237,14 +237,14 @@ public class Player : MonoBehaviour
 
     private void PortalMove(Vector2Int _LeftPos, Vector3 MovePos)
     {
-        // ¹Ş¾Æ¿Â ¸Å°³ º¯¼ö¿¡ µû¶ó ÇÃ·¹ÀÌ¾î ÀÌµ¿ À§Ä¡ ¹× Ä«¸Ş¶ó À§Ä¡ ¼³Á¤
+        // ë°›ì•„ì˜¨ ë§¤ê°œ ë³€ìˆ˜ì— ë”°ë¼ í”Œë ˆì´ì–´ ì´ë™ ìœ„ì¹˜ ë° ì¹´ë©”ë¼ ìœ„ì¹˜ ì„¤ì •
         foreach (Dungeon Pos in Map.Instance._DungeonList)
         {
-            // ÀÌµ¿ÇÏ·Á°í ÇÏ´Â ¹æÀÇ ÁÂÇ¥°¡ Á¸Àç ÇÒ °æ¿ì
+            // ì´ë™í•˜ë ¤ê³  í•˜ëŠ” ë°©ì˜ ì¢Œí‘œê°€ ì¡´ì¬ í•  ê²½ìš°
             if (Pos.LeftBenchmark == PlayerLocalPos + _LeftPos)
             {
 
-                // È÷µç·ë°ú º¸½º·ëÀÇ °æ¿ì ÇÃ·¹ÀÌ¾îÀÇ ¾ÆÀÌÅÛÀÇ Á¶°Ç¿¡ µû¶ó ÀÔÀå°¡´É
+                // íˆë“ ë£¸ê³¼ ë³´ìŠ¤ë£¸ì˜ ê²½ìš° í”Œë ˆì´ì–´ì˜ ì•„ì´í…œì˜ ì¡°ê±´ì— ë”°ë¼ ì…ì¥ê°€ëŠ¥
                 if (Pos.BossRoom == false)
                 {
                     PlayerLocalPos = PlayerLocalPos + _LeftPos;
@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        // ¹æ ÀÔÀå½Ã ÀÌÀü ¹æÀÇ Æ÷Å»À» Á¦°Å
+        // ë°© ì…ì¥ì‹œ ì´ì „ ë°©ì˜ í¬íƒˆì„ ì œê±°
         for (int i = 0; i < Map.Instance.PortalArray.Count; i++)
             Destroy(Map.Instance.PortalArray[i]);
 
@@ -286,7 +286,7 @@ public class Player : MonoBehaviour
         GameObject PorTal;
         GameObject PorTal_Instance;
 
-        // ÇöÀç ¹æÀÇ ±âÁØÀ¸·Î 4¹æÇâ¿¡ ¹æ Á¸Àç À¯¹«¸¦ È®ÀÎ ÈÄ ¹æÀÇ Á¶°Ç¿¡ ¸Â´Â Æ÷Å»À» »ı¼º
+        // í˜„ì¬ ë°©ì˜ ê¸°ì¤€ìœ¼ë¡œ 4ë°©í–¥ì— ë°© ì¡´ì¬ ìœ ë¬´ë¥¼ í™•ì¸ í›„ ë°©ì˜ ì¡°ê±´ì— ë§ëŠ” í¬íƒˆì„ ìƒì„±
         foreach (Dungeon Pos in Map.Instance._DungeonList)
         {
             if (Pos.LeftBenchmark == PlayerLocalPos + new Vector2Int(0, Map.Instance.RoomSize_Y + 10))
@@ -363,7 +363,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        // ÇöÀç ¹æÀÇ ¸ó½ºÅÍ Á¸Àç ¿©ºÎ¿¡ µû¶ó Æ÷Å» ±¸ºĞ
+        // í˜„ì¬ ë°©ì˜ ëª¬ìŠ¤í„° ì¡´ì¬ ì—¬ë¶€ì— ë”°ë¼ í¬íƒˆ êµ¬ë¶„
         for (int i = 0; i < Map.Instance.PortalArray.Count; i++)
         {
             if(CurRoom.Monster == 0)

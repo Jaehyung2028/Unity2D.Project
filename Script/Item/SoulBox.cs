@@ -44,7 +44,7 @@ public class SoulBox : MonoBehaviour
     }
 
 
-    // Ä«¸Ş¶ó Áøµ¿ È¿°ú ±¸Çö
+    // ì¹´ë©”ë¼ ì§„ë™ íš¨ê³¼ êµ¬í˜„
     IEnumerator CameraShake()
     {
         Camera Ca = Camera.main;

@@ -16,7 +16,7 @@ public class BossBullet : MonoBehaviour
     bool Hit = false;
 
 
-    // ¸ó½ºÅÍ¿¡¼­ ÃÑ¾Ë ¿ÀºêÁ§Æ®¸¦ Å¥·Î °ü¸® ÇÏ¿© Ç®¸µ ±â¹ıÀ» »ç¿ë
+    // ëª¬ìŠ¤í„°ì—ì„œ ì´ì•Œ ì˜¤ë¸Œì íŠ¸ë¥¼ íë¡œ ê´€ë¦¬ í•˜ì—¬ í’€ë§ ê¸°ë²•ì„ ì‚¬ìš©
     private void OnEnable() { Hit_Coll.enabled = true; Hit = false; }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,7 +25,7 @@ public class BossBullet : MonoBehaviour
             StartCoroutine(DestroyControl());
     }
 
-    // Ãæµ¹ °¨Áö ÈÄ¿¡ ¿ÀºêÁ§Æ®ÀÇ ÄÃ·¯ÀÇ ¾ËÆÄ °ªÀ» ¼±Çüº¸°£À» ÀÌ¿ëÇÏ¿© ÃµÃµÈ÷ Åõ¸íÇØÁöµµ·Ï ¼³Á¤
+    // ì¶©ëŒ ê°ì§€ í›„ì— ì˜¤ë¸Œì íŠ¸ì˜ ì»¬ëŸ¬ì˜ ì•ŒíŒŒ ê°’ì„ ì„ í˜•ë³´ê°„ì„ ì´ìš©í•˜ì—¬ ì²œì²œíˆ íˆ¬ëª…í•´ì§€ë„ë¡ ì„¤ì •
     IEnumerator DestroyControl()
     {
         Hit = true;
@@ -41,7 +41,7 @@ public class BossBullet : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        // ¿ÀºêÁ§Æ®¿¡ ºÎ¸ğ¸¦ ´ëÀÔ ½ÃÅ°°í ´Ù½Ã Å¥¿¡ ´ëÀÔ
+        // ì˜¤ë¸Œì íŠ¸ì— ë¶€ëª¨ë¥¼ ëŒ€ì… ì‹œí‚¤ê³  ë‹¤ì‹œ íì— ëŒ€ì…
         Boss_Script.Bullet_List.Enqueue(gameObject);
         gameObject.transform.SetParent(Bullet_Parent);
 
@@ -61,7 +61,7 @@ public class BossBullet : MonoBehaviour
         if (!Hit)
             transform.Translate(-transform.right * 10 * Time.deltaTime, Space.World);
 
-        // Å¥¿¡ ´ëÀÔµÇ±â Àü ¸Ê ÃÊ±âÈ­½Ã ¿ÀºêÁ§Æ® »èÁ¦
+        // íì— ëŒ€ì…ë˜ê¸° ì „ ë§µ ì´ˆê¸°í™”ì‹œ ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
         if (Map.Instance.Reset) Destroy(gameObject);
     }
 }

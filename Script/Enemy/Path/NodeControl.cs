@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// ±æ Ã£±â´Â A* ¾Ë°í¸®ÁòÀ» ÀÌ¿ëÇÏ¿© ±¸Çö
-// G : ½ÃÀÛÀ¸·ÎºÎÅÍ ÀÌµ¿Çß´ø °Å¸®, H : |°¡·Î|+|¼¼·Î| Àå¾Ö¹° ¹«½ÃÇÏ¿© ¸ñÇ¥±îÁöÀÇ °Å¸®, F : G + H À» ÀÌ¿ëÇÏ¿© °¡Àå ºü¸¥ ±æÀ» Ã£´Â´Ù.
+// ê¸¸ ì°¾ê¸°ëŠ” A* ì•Œê³ ë¦¬ì¦˜ì„ ì´ìš©í•˜ì—¬ êµ¬í˜„
+// G : ì‹œìž‘ìœ¼ë¡œë¶€í„° ì´ë™í–ˆë˜ ê±°ë¦¬, H : |ê°€ë¡œ|+|ì„¸ë¡œ| ìž¥ì• ë¬¼ ë¬´ì‹œí•˜ì—¬ ëª©í‘œê¹Œì§€ì˜ ê±°ë¦¬, F : G + H ì„ ì´ìš©í•˜ì—¬ ê°€ìž¥ ë¹ ë¥¸ ê¸¸ì„ ì°¾ëŠ”ë‹¤.
 [System.Serializable]
 public class Node
 {
@@ -34,19 +34,19 @@ public class NodeControl : MonoBehaviour
 
     public void PathFind(Vector3Int Left, Vector3Int Right, Vector3 Pos, Vector3 TargetPos, out Stack<Node> FinalNode, out Node Destination)
     {
-        // Å¸ÀÏÀÇ Áß¾Ó ÁöÁ¡À» ±âÁØÀ¸·Î ÀÌµ¿ÇÏ±â À§ÇØ Å¸ÀÏ¸ÊÀÇ À§Ä¡¸¦ -0.5, -0.5 ÀÌµ¿½ÃÄÑ Á¤¼ö ±âÁØÀÇ ÁÂÇ¥°¡ Å¸ÀÏÀÇ Áß¾Ó¿¡ À§Ä¡ÇÏ°Ô ÇÏ¿´°í
-        // ¸ó½ºÅÍ¿Í ÇÃ·¹ÀÌ¾î À§Ä¡¶ÇÇÑ Å¸ÀÏ Áß¾Ó±âÁØÀ» ¸ÂÃß±â À§ÇØ ¹Ý¿Ã¸²
+        // íƒ€ì¼ì˜ ì¤‘ì•™ ì§€ì ì„ ê¸°ì¤€ìœ¼ë¡œ ì´ë™í•˜ê¸° ìœ„í•´ íƒ€ì¼ë§µì˜ ìœ„ì¹˜ë¥¼ -0.5, -0.5 ì´ë™ì‹œì¼œ ì •ìˆ˜ ê¸°ì¤€ì˜ ì¢Œí‘œê°€ íƒ€ì¼ì˜ ì¤‘ì•™ì— ìœ„ì¹˜í•˜ê²Œ í•˜ì˜€ê³ 
+        // ëª¬ìŠ¤í„°ì™€ í”Œë ˆì´ì–´ ìœ„ì¹˜ë˜í•œ íƒ€ì¼ ì¤‘ì•™ê¸°ì¤€ì„ ë§žì¶”ê¸° ìœ„í•´ ë°˜ì˜¬ë¦¼
         Pos = Vector3Int.RoundToInt(Pos);
         TargetPos = Vector3Int.RoundToInt(TargetPos);
 
-        // NodeArray¿¡ ¸ó½ºÅÍ ÀÚ½ÅÀÌ ÀÌµ¿ÇÒ¼ö ÀÖ´Â ÁÂÇ¥ ¹üÀ§¸¦ ´ëÀÔÇØÁÖ°í ¹è¿­ÀÇ Å©±â¸¦ ¼³Á¤
+        // NodeArrayì— ëª¬ìŠ¤í„° ìžì‹ ì´ ì´ë™í• ìˆ˜ ìžˆëŠ” ì¢Œí‘œ ë²”ìœ„ë¥¼ ëŒ€ìž…í•´ì£¼ê³  ë°°ì—´ì˜ í¬ê¸°ë¥¼ ì„¤ì •
         sizeX = Right.x - Left.x + 1;
         sizeY = Right.y - Left.y + 1;
 
         NodeArray = new Node[sizeX, sizeY];
 
 
-        // ¸ÊÀ» »ý¼ºÇÏ¶§ Àå¾Ö¹°ÀÌ ÀÖ´Â Å¸ÀÏ¸ÊÀÇ ÁÂÇ¥¸¦ Ã£¾Æ º®À¸·Î ÀÎ½Ä½ÃÄÑ ´ëÀÔ
+        // ë§µì„ ìƒì„±í•˜ë•Œ ìž¥ì• ë¬¼ì´ ìžˆëŠ” íƒ€ì¼ë§µì˜ ì¢Œí‘œë¥¼ ì°¾ì•„ ë²½ìœ¼ë¡œ ì¸ì‹ì‹œì¼œ ëŒ€ìž…
         for (int i = 0; i < sizeX; i++)
         {
             for (int j = 0; j < sizeY; j++)
@@ -60,11 +60,11 @@ public class NodeControl : MonoBehaviour
             }
         }
 
-        // ½ÃÀÛ ³ëµå¸¦ ÀÚ½ÅÀÇ À§Ä¡¸¦ ÁÂÃøÇÏ´Ü ÁÂÇ¥ ±âÁØÀ¸·Î ÃÊ±âÈ­
+        // ì‹œìž‘ ë…¸ë“œë¥¼ ìžì‹ ì˜ ìœ„ì¹˜ë¥¼ ì¢Œì¸¡í•˜ë‹¨ ì¢Œí‘œ ê¸°ì¤€ìœ¼ë¡œ ì´ˆê¸°í™”
         StartNode = NodeArray[(int)Pos.x - Left.x, (int)Pos.y - Left.y];
 
-        // Å¸ÄÏÀÇ À§Ä¡°¡ ÀÚ½ÅÀÇ ÀÌµ¿ ¹üÀ§¿¡ ÀÖÀ» °æ¿ì Å¸°ÙÀÇ À§Ä¡¸¦ ³ëµå¿¡ ÃÊ±âÈ­
-        // ¹üÀ§¿¡ Æ÷ÇÔµÇ¾î ÀÖÁö ¾ÊÀ» °æ¿ì null °ªÀ» ¸®ÅÏÇØÁØ´Ù. ¸ó½ºÅÍ´Â null °ªÀÌ ¸®ÅÏµÉ °æ¿ì ÀÌµ¿ÄÚ·çÆ¾À» Á¾·á
+        // íƒ€ì¼“ì˜ ìœ„ì¹˜ê°€ ìžì‹ ì˜ ì´ë™ ë²”ìœ„ì— ìžˆì„ ê²½ìš° íƒ€ê²Ÿì˜ ìœ„ì¹˜ë¥¼ ë…¸ë“œì— ì´ˆê¸°í™”
+        // ë²”ìœ„ì— í¬í•¨ë˜ì–´ ìžˆì§€ ì•Šì„ ê²½ìš° null ê°’ì„ ë¦¬í„´í•´ì¤€ë‹¤. ëª¬ìŠ¤í„°ëŠ” null ê°’ì´ ë¦¬í„´ë  ê²½ìš° ì´ë™ì½”ë£¨í‹´ì„ ì¢…ë£Œ
         if (TargetPos.x >= Left.x && TargetPos.x <= Right.x)
         {
             if (TargetPos.y >= Left.y && TargetPos.y <= Right.y)
@@ -81,18 +81,18 @@ public class NodeControl : MonoBehaviour
 
         Destination = TargetNode;
 
-        // ³ª¸ÓÁö ¸®½ºÆ®µéÀ» ÃÊ±âÈ­
+        // ë‚˜ë¨¸ì§€ ë¦¬ìŠ¤íŠ¸ë“¤ì„ ì´ˆê¸°í™”
         OpenList = new List<Node>() { StartNode };
         ClosedList = new List<Node>();
         DestinationNode = new Stack<Node>();
 
 
-        // ÀÌµ¿ÇÒ¼ö ÀÖ´Â ¿ÀÇÂ ¸®½ºÆ®°¡ ÀÖÀ» °æ¿ì °è¼ÓÇØ¼­ °æ·Î¸¦ Å½»ö
+        // ì´ë™í• ìˆ˜ ìžˆëŠ” ì˜¤í”ˆ ë¦¬ìŠ¤íŠ¸ê°€ ìžˆì„ ê²½ìš° ê³„ì†í•´ì„œ ê²½ë¡œë¥¼ íƒìƒ‰
         while (OpenList.Count > 0)
         {
             CurNode = OpenList[0];
 
-            // Ã¹¼ø¼­ÀÇ ¿ÀÇÂ ³ëµåº¸´Ù ´Ù¸¥ ·ÎµåÀÇ F°¡ ÀÛ°í F°¡ °°´Ù¸é H°¡ ÀÛÀº °É ÇöÀç³ëµå·Î ÇÏ¿© ´ÝÈù¸®½ºÆ®·Î º¯°æ
+            // ì²«ìˆœì„œì˜ ì˜¤í”ˆ ë…¸ë“œë³´ë‹¤ ë‹¤ë¥¸ ë¡œë“œì˜ Fê°€ ìž‘ê³  Fê°€ ê°™ë‹¤ë©´ Hê°€ ìž‘ì€ ê±¸ í˜„ìž¬ë…¸ë“œë¡œ í•˜ì—¬ ë‹«ížŒë¦¬ìŠ¤íŠ¸ë¡œ ë³€ê²½
             for (int i = 1; i < OpenList.Count; i++)
                 if (OpenList[i].F <= CurNode.F && OpenList[i].H < CurNode.H) 
                     CurNode = OpenList[i];
@@ -102,8 +102,8 @@ public class NodeControl : MonoBehaviour
 
 
 
-            // ÇöÀç ³ëµå°¡ Å¸°Ù ³ëµå¿Í °°À» °æ¿ì ÀÌµ¿°æ·Î¸¦ ÀüºÎ ´ëÀÔ
-            // ½ÃÀÛÁ¡ºÎÅÍ ÀÌµ¿ ÇØ¾ß µÇ±â ¶§¹®¿¡ ½ºÅÃÀ» È°¿ë
+            // í˜„ìž¬ ë…¸ë“œê°€ íƒ€ê²Ÿ ë…¸ë“œì™€ ê°™ì„ ê²½ìš° ì´ë™ê²½ë¡œë¥¼ ì „ë¶€ ëŒ€ìž…
+            // ì‹œìž‘ì ë¶€í„° ì´ë™ í•´ì•¼ ë˜ê¸° ë•Œë¬¸ì— ìŠ¤íƒì„ í™œìš©
             if (CurNode == TargetNode)
             {
                 Node TargetCurNode = TargetNode;
@@ -117,7 +117,7 @@ public class NodeControl : MonoBehaviour
                 DestinationNode.Push(StartNode);
             }
 
-            // ÁÂ, ¿ì, À§, ¾Æ·¡, ´ë°¢¼± ÃÑ 8°³ÀÇ ¹æÇâÀ¸·Î °æ·Î¸¦ Å½»öÇÏ¿© ¿ÀÇÂ³ëµå¿¡ ´ëÀÔ
+            // ì¢Œ, ìš°, ìœ„, ì•„ëž˜, ëŒ€ê°ì„  ì´ 8ê°œì˜ ë°©í–¥ìœ¼ë¡œ ê²½ë¡œë¥¼ íƒìƒ‰í•˜ì—¬ ì˜¤í”ˆë…¸ë“œì— ëŒ€ìž…
             OpenListAdd(CurNode.x + 1, CurNode.y + 1, Left, Right);
             OpenListAdd(CurNode.x - 1, CurNode.y + 1, Left, Right);
             OpenListAdd(CurNode.x - 1, CurNode.y - 1, Left, Right);
@@ -128,30 +128,30 @@ public class NodeControl : MonoBehaviour
             OpenListAdd(CurNode.x - 1, CurNode.y, Left, Right);
         }
 
-        // ÃÖ´Ü ÀÌµ¿ °æ·Î¸¦ ´ãÀº ³ëµå¸¦ ´ëÀÔÇØÁÖ¾î ³Ñ°ÜÁÜ
+        // ìµœë‹¨ ì´ë™ ê²½ë¡œë¥¼ ë‹´ì€ ë…¸ë“œë¥¼ ëŒ€ìž…í•´ì£¼ì–´ ë„˜ê²¨ì¤Œ
         FinalNode = DestinationNode;
     }
 
     void OpenListAdd(int checkX, int checkY, Vector3Int Left, Vector3Int Right)
     {
-        // ÀÌµ¿ ¹üÀ§¸¦ ¹þ¾î³ªÁö ¾Ê°í, º® ¶Ç´Â ´ÝÈù¸®½ºÆ®°¡ ¾Æ´Ò °æ¿ì ½ÇÇà
+        // ì´ë™ ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ì§€ ì•Šê³ , ë²½ ë˜ëŠ” ë‹«ížŒë¦¬ìŠ¤íŠ¸ê°€ ì•„ë‹ ê²½ìš° ì‹¤í–‰
         if (checkX >= Left.x && checkX <= Right.x && checkY >= Left.y && checkY <= Right.y)
         {
             if (!NodeArray[checkX - Left.x, checkY - Left.y].isWall && !ClosedList.Contains(NodeArray[checkX - Left.x, checkY - Left.y]))
             {
-                // ´ë°¢¼± ÀÌµ¿½Ã º®»çÀÌ·Î ÀÌµ¿ ºÒ°¡
+                // ëŒ€ê°ì„  ì´ë™ì‹œ ë²½ì‚¬ì´ë¡œ ì´ë™ ë¶ˆê°€
                 if (NodeArray[CurNode.x - Left.x, checkY - Left.y].isWall && NodeArray[checkX - Left.x, CurNode.y - Left.y].isWall) return;
 
-                // ´ë°¢¼± ÀÌµ¿½Ã ÄÚ³Ê¸¦ °¡·Î Áú·¯ °¡Áö ¾Ê°í ¼öÁ÷¼öÆò¿¡ º®ÀÌ ÀÖÀ» °æ¿ì ÀÌµ¿ ºÒ°¡
+                // ëŒ€ê°ì„  ì´ë™ì‹œ ì½”ë„ˆë¥¼ ê°€ë¡œ ì§ˆëŸ¬ ê°€ì§€ ì•Šê³  ìˆ˜ì§ìˆ˜í‰ì— ë²½ì´ ìžˆì„ ê²½ìš° ì´ë™ ë¶ˆê°€
                 if (NodeArray[CurNode.x - Left.x, checkY - Left.y].isWall || NodeArray[checkX - Left.x, CurNode.y - Left.y].isWall) return;
 
 
-                // ³ëµå¿¡ ´ëÀÔ ½ÃÅ² ÈÄ Á÷¼±, ´ë°¢¼±¿¡ µû¸¥ ºñ¿ë ÁöÁ¤
+                // ë…¸ë“œì— ëŒ€ìž… ì‹œí‚¨ í›„ ì§ì„ , ëŒ€ê°ì„ ì— ë”°ë¥¸ ë¹„ìš© ì§€ì •
                 Node NeighborNode = NodeArray[checkX - Left.x, checkY - Left.y];
                 int MoveCost = CurNode.G + (CurNode.x - checkX == 0 || CurNode.y - checkY == 0 ? 10 : 14);
 
 
-                // ÀÌµ¿ºñ¿ëÀÌ ÀÌ¿ô³ëµåGº¸´Ù ÀÛ°Å³ª ¶Ç´Â ¿­¸°¸®½ºÆ®¿¡ ÀÌ¿ô³ëµå°¡ ¾ø´Ù¸é G, H, ParentNode¸¦ ¼³Á¤ ÈÄ ¿­¸°¸®½ºÆ®¿¡ Ãß°¡
+                // ì´ë™ë¹„ìš©ì´ ì´ì›ƒë…¸ë“œGë³´ë‹¤ ìž‘ê±°ë‚˜ ë˜ëŠ” ì—´ë¦°ë¦¬ìŠ¤íŠ¸ì— ì´ì›ƒë…¸ë“œê°€ ì—†ë‹¤ë©´ G, H, ParentNodeë¥¼ ì„¤ì • í›„ ì—´ë¦°ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
                 if (MoveCost < NeighborNode.G || !OpenList.Contains(NeighborNode))
                 {
                     NeighborNode.G = MoveCost;

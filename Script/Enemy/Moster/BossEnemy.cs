@@ -6,17 +6,17 @@ using UnityEngine;
 public class BossEnemy : Enemy
 {
     [Space]
-    [Header("º¸½º HP ÀÌ¹ÌÁö")]
+    [Header("ë³´ìŠ¤ HP ì´ë¯¸ì§€")]
     [SerializeField] GameObject[] Hp_obj;
 
     Stack<GameObject> HP_Image = new Stack<GameObject>();
 
     [Space]
-    [Header("ÃÑ¾Ë ¹ß»ç À§Ä¡")]
+    [Header("ì´ì•Œ ë°œì‚¬ ìœ„ì¹˜")]
     [SerializeField] GameObject[] BulletPos;
 
     [Space]
-    [Header("ÃÑ¾Ë ¿ÀºêÁ§Æ®")]
+    [Header("ì´ì•Œ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] GameObject[] Bullet;
 
     public Queue<GameObject> Bullet_List = new Queue<GameObject>();
@@ -29,18 +29,18 @@ public class BossEnemy : Enemy
     {
         base.Awake();
 
-        // ³­ÀÌµµ¿¡ µû¸¥ º¸½º ¸ó½ºÅÍ HPÀÌ¹ÌÁö ¼³Á¤ ÈÄ ½ºÅÃ¿¡ ´ëÀÔ
+        // ë‚œì´ë„ì— ë”°ë¥¸ ë³´ìŠ¤ ëª¬ìŠ¤í„° HPì´ë¯¸ì§€ ì„¤ì • í›„ ìŠ¤íƒì— ëŒ€ì…
         for (int i = 0; i < Hp; i++)
         { Hp_obj[i].SetActive(true); HP_Image.Push(Hp_obj[i]); }
 
-        // ¸ó½ºÅÍ ÃÑ¾ËÀ» Å¥·Î °ü¸®
+        // ëª¬ìŠ¤í„° ì´ì•Œì„ íë¡œ ê´€ë¦¬
         for (int i = 0; i < Bullet.Length; i++)
             Bullet_List.Enqueue(Bullet[i]);
     }
 
     protected override void Hit()
     {
-        // º¸½º ¸ó½ºÅÍÀÇ °æ¿ì HP¸¦ ½ºÅÃÀ¸·Î °ü¸®
+        // ë³´ìŠ¤ ëª¬ìŠ¤í„°ì˜ ê²½ìš° HPë¥¼ ìŠ¤íƒìœ¼ë¡œ ê´€ë¦¬
         if (enemyStat != EnemyStat.Die)
         {
             HItEffect.Play();
@@ -66,14 +66,14 @@ public class BossEnemy : Enemy
     {
         IsSkill = true;
 
-        // º¸½ºÀÇ ÆĞÅÏÀ» ·£´ıÀ» ÀÌ¿ëÇÏ¿© ¼³Á¤
+        // ë³´ìŠ¤ì˜ íŒ¨í„´ì„ ëœë¤ì„ ì´ìš©í•˜ì—¬ ì„¤ì •
         int Pattern = UnityEngine.Random.Range(0, 2);
 
         switch (Pattern)
         {
             case 0:
 
-                // ÃÑ¾Ë ¹ß»ç ÆĞÅÏÀº ÃÑ¾ËÀÇ ºÎ¸ğ¸¦ ÇØÁ¦ ½ÃÅ°¸é¼­ ¹Ì¸® ¼³Á¤µÈ À§Ä¡¿¡¼­ ¹ß»ç µÇµµ·Ï ¼³Á¤
+                // ì´ì•Œ ë°œì‚¬ íŒ¨í„´ì€ ì´ì•Œì˜ ë¶€ëª¨ë¥¼ í•´ì œ ì‹œí‚¤ë©´ì„œ ë¯¸ë¦¬ ì„¤ì •ëœ ìœ„ì¹˜ì—ì„œ ë°œì‚¬ ë˜ë„ë¡ ì„¤ì •
                 GameObject _Bullet;
 
                 for (int i = 0; i < 4; i++)
@@ -103,7 +103,7 @@ public class BossEnemy : Enemy
 
             case 1:
 
-                // ÆĞÅÏ ½ÇÇà½Ã ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ¹Ş¾Æ¿Í µ¹ÁøÇÏµµ·Ï ±¸Çö
+                // íŒ¨í„´ ì‹¤í–‰ì‹œ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¥¼ ë°›ì•„ì™€ ëŒì§„í•˜ë„ë¡ êµ¬í˜„
                 float _time = 0;
 
                 Vector3 PlayerPos = Player.transform.position;
@@ -161,11 +161,11 @@ public class BossEnemy : Enemy
 
         Destroy(Player.transform.gameObject);
 
-        // º¸½º ¸ó½ºÅÍ Ã³Ä¡½Ã ¸ğµç ¸Ê°ú ¿ÀºêÁ§Æ®¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö ½ÇÇà
+        // ë³´ìŠ¤ ëª¬ìŠ¤í„° ì²˜ì¹˜ì‹œ ëª¨ë“  ë§µê³¼ ì˜¤ë¸Œì íŠ¸ë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜ ì‹¤í–‰
         Map.Instance.TileReset();
     }
 
-    // Phisics¸¦ ÀÌ¿ëÇÏ¿© ÀÏ¹İ °ø°İ ¹üÀ§ °¨Áö
+    // Phisicsë¥¼ ì´ìš©í•˜ì—¬ ì¼ë°˜ ê³µê²© ë²”ìœ„ ê°ì§€
     protected override void PlayerCheck()
     {
         Attack_Player = Physics2D.BoxCast(Rd.transform.position, new Vector2(Attack_Area, Attack_Area / 2), 0, Vector2.zero, 0, LayerMask.GetMask("Player"));
@@ -176,12 +176,12 @@ public class BossEnemy : Enemy
 
     protected override void EnemyControl()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ÀÚ½ÅÀÇ ¹æ ¹üÀ§¿¡ À§Ä¡ÇÒ °æ¿ì ½ÇÇà
+        // í”Œë ˆì´ì–´ê°€ ìì‹ ì˜ ë°© ë²”ìœ„ì— ìœ„ì¹˜í•  ê²½ìš° ì‹¤í–‰
         if (Player.transform.position.x >= LeftPos.x && Player.transform.position.x <= RightPos.x)
         {
             if (Player.transform.position.y >= LeftPos.y && Player.transform.position.y <= RightPos.y)
             {
-                // ¸ó½ºÅÍÀÇ »óÅÂ¸¦ ¿­°ÜÇüÀ¸·Î °ü¸®
+                // ëª¬ìŠ¤í„°ì˜ ìƒíƒœë¥¼ ì—´ê²¨í˜•ìœ¼ë¡œ ê´€ë¦¬
                 if (enemyStat != EnemyStat.Die)
                 {
                     PlayerCheck();
