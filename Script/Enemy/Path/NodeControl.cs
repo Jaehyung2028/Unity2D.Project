@@ -139,17 +139,13 @@ public class NodeControl : MonoBehaviour
         {
             if (!NodeArray[checkX - Left.x, checkY - Left.y].isWall && !ClosedList.Contains(NodeArray[checkX - Left.x, checkY - Left.y]))
             {
-                // 대각선 이동시 벽사이로 이동 불가
-                if (NodeArray[CurNode.x - Left.x, checkY - Left.y].isWall && NodeArray[checkX - Left.x, CurNode.y - Left.y].isWall) return;
 
                 // 대각선 이동시 코너를 가로 질러 가지 않고 수직수평에 벽이 있을 경우 이동 불가
                 if (NodeArray[CurNode.x - Left.x, checkY - Left.y].isWall || NodeArray[checkX - Left.x, CurNode.y - Left.y].isWall) return;
 
-
                 // 노드에 대입 시킨 후 직선, 대각선에 따른 비용 지정
                 Node NeighborNode = NodeArray[checkX - Left.x, checkY - Left.y];
                 int MoveCost = CurNode.G + (CurNode.x - checkX == 0 || CurNode.y - checkY == 0 ? 10 : 14);
-
 
                 // 이동비용이 이웃노드G보다 작거나 또는 열린리스트에 이웃노드가 없다면 G, H, ParentNode를 설정 후 열린리스트에 추가
                 if (MoveCost < NeighborNode.G || !OpenList.Contains(NeighborNode))
